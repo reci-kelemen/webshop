@@ -21,11 +21,11 @@
         <button><a href="fooldal.php">Kijelentkezés</a></button>
     </nav>
     <main class="container">
-        <form action="adatfeldolgozas.php" method="POST" name="jelentkezesi_urlap" id="jelentkezesi_urlap">
+        <form action="regisztracio.php" method="POST" name="jelentkezesi_urlap" id="jelentkezesi_urlap">
             <h2>Jelentkezési űrlap</h2>
             <div class="mb-3">
-                <label class="form-label" for="nev_input">Név:</label>
-                <input class="form-control" type="text" name="nev" id="nev_input" placeholder="Név">
+                <label class="form-label" for="fnev_input">Felhasználó név:</label>
+                <input class="form-control" type="text" name="fnev" id="fnev_input" placeholder="Felhasználó név">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="email_input">E-mail:</label>
@@ -36,25 +36,24 @@
                 <input class="form-control" type="password" name="jelszo" id="jelszo_input" placeholder="Jelszó">
             </div>
             <div class="mb-3">
-                <label class="form-label radio_label checkbox_label">Nem:</label>
-                <div>
-                    <input class="form-check-input" type="radio" name="nem" id="ferfi_input" value="ferfi">
-                    <label class="form-check-label radio_label" for="ferfi_input">Férfi</label>
-                    <input class="form-check-input" type="radio" name="nem" id="no_input" value="no">
-                    <label class="form-check-label radio_label" for="no_input">Nő</label>
-                    <input class="form-check-input" type="radio" name="nem" id="egyeb_input" value="egyeb">
-                    <label class="form-check-label radio_label" for="egyeb_input">Egyéb</label>
-                </div>
+                <label class="form-label" for="tnev_input">Teljes név:</label>
+                <input class="form-control" type="text" name="tnev" id="tnev_input" placeholder="Teljes név">
             </div>
             <div class="mb-3">
-                <label class="form-label" for="iskola_input">Iskolai végzettség</label>
-                <select class="form-select" name="iskola" id="iskola_input">
-                    <option value="altalanos">Általános Iskola</option>
-                    <option value="szakmunkas">Szakmunkás képző / szakiskola</option>
-                    <option value="erettsegi">Érettségi</option>
-                    <option value="okj">OKJ</option>
-                    <option value="egyetem">Főiskola / Egyetem</option>
-                </select>
+                <label class="form-label" for="szuletesi_datum">Születési dátum:</label>
+                <input class="form-control" type="date" name="szuletesi_datum" id="szuletesi_datum_input" placeholder="Születési dátum">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="iranyito_szam">Irányító szám:</label>
+                <input class="form-control" type="number" name="iranyito_szam" id="iranyito_szam_input" placeholder="Irányító szám">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="varos">Város:</label>
+                <input class="form-control" type="text" name="varos" id="varos_input" placeholder="Város">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="cim">Cím:</label>
+                <input class="form-control" type="text" name="cim" id="cim_input" placeholder="Cím">
             </div>
             <div class="mb-3">
                 <input class="form-check-input" type="checkbox" name="feltetelek" id="feltetelek_input">
@@ -62,7 +61,55 @@
             </div>
             <input class="btn btn-outline-primary" type="submit" value="Elküld">
         </form>
-
+        <?php if (isset($_POST) && !empty($_POST)) : ?>
+            <?php if (count($_POST) < 6) : ?>
+                <h2>Hiba az űrlap elküldésekor</h2>
+                <ul>
+                    <?php if (!isset($_POST['fnev']) || empty($_POST['fnev'])) : ?>
+                        <li>A felhasználó név megadása kötelező</li>
+                    <?php endif; ?>
+                    <?php if (!isset($_POST['email']) || empty($_POST['email'])) : ?>
+                        <li>Az e-mail megadása kötelező</li>
+                    <?php endif; ?>
+                    <?php if (!isset($_POST['jelszo']) || empty($_POST['jelszo'])) : ?>
+                        <li>A jelszó megadása kötelező</li>
+                    <?php endif; ?>
+                    <?php if (!isset($_POST['tnev']) || empty($_POST['tnev'])) : ?>
+                        <li>A teljes név megadása kötelező</li>
+                    <?php endif; ?>
+                    <?php if (!isset($_POST['szuletesi_datum']) || empty($_POST['szuletesi_datum'])) : ?>
+                        <li>A születési dátum megadása kötelező</li>
+                    <?php endif; ?>
+                    <?php if (!isset($_POST['iranyito_szam']) || empty($_POST['iranyito_szam'])) : ?>
+                        <li>Az irányító szám megadása kötelező</li>
+                    <?php endif; ?>
+                    <?php if (!isset($_POST['varos']) || empty($_POST['varos'])) : ?>
+                        <li>A város megadása kötelező</li>
+                    <?php endif; ?>
+                    <?php if (!isset($_POST['cim']) || empty($_POST['cim'])) : ?>
+                        <li>A cím megadása kötelező</li>
+                    <?php endif; ?>
+                </ul>
+            <?php else : ?>
+                <?php 
+                    $file = fopen("adatok.csv", 'a');
+                    $fnev = $_POST['fnev'];
+                    $email = $_POST['email'];
+                    $jelszo = "";
+                    $tnev = $_POST['tnev'];
+                    $szuletesi_datum = $_POST['szuletesi_datum'];
+                    $iranyito_szam= $_POST['iranyito_szam'];
+                    $varos= $_POST['varos'];
+                    $cim= $_POST['cim'];
+                    for ($i = 0; $i < strlen($_POST['jelszo']); $i++) { 
+                        $jelszo .= "*";
+                    }
+                    $sor = "$fnev;$email;$jelszo;$tnev;$szuletesi_datum;$iranyito_szam;$varos;$cim". PHP_EOL;
+                    fwrite($file, $sor);
+                    fclose($file);
+                ?>
+            <?php endif; ?>
+        <?php endif; ?>
     </main>
 </body>
 </html>

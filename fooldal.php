@@ -15,7 +15,24 @@
         <a href="termekek.php">Termékek hozzáadása</a>
         <button><a href="fooldal.php">Kijelentkezés</a></button>
     </nav>
-    <h1>
-    </h1>
+    <main class="container">
+            <?php
+            $mysqli = new mysqli("localhost", "root", "", "webshop");
+            // $connection = mysqli_connect("localhost", "root", "");
+            // if ($mysqli -> connect_errno) {
+            //     echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+            //     exit();
+            //   }
+             
+            // $mysqli -> query("select * from termek");  
+            // $result = mysqli_query($connection,$mysqli);
+
+            // while($row = mysqli_fetch_array($result)){   //Creates a loop to loop through results
+            //     echo "<tr><td>" . htmlspecialchars($row['name']) . "</td><td>" . htmlspecialchars($row['age']) . "</td></tr>";  //$row['index'] the index here is a field name
+            //     }
+
+            $mysqli -> close();
+            ?>
+    </main>
 </body>
 </html>
