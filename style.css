@@ -1,5 +1,5 @@
 nav {
-    color:white;
+
     background-color: blue;
 }
 
@@ -13,4 +13,5 @@ a:visited {
 
 a {
     text-decoration: none;
+    color:white;
 }
