@@ -25,19 +25,19 @@
             <h2>Termékek hozzáadása</h2>
             <div class="mb-3">
                 <label class="form-label" for="nev_input">Termék név:</label>
-                <input class="form-control" type="text" name="nev" id="nev_input" placeholder="Termék név">
+                <input class="form-control" type="text" name="nev" id="nev_input" placeholder="Termék név" maxlength="100">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="leiras_input">Leírás:</label>
-                <textarea class="form-control" id="leiras_input" name="leiras" rows="4" cols="50" placeholder="Leírás">Leírás</textarea>
+                <textarea class="form-control" id="leiras_input" name="leiras" rows="4" cols="50" placeholder="Leírás" maxlength="250">Leírás</textarea>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="ar_input">Ár:</label>
-                <input class="form-control" type="number" name="ar" id="ar_input" placeholder="Ár">
+                <input class="form-control" type="number" name="ar" id="ar_input" placeholder="Ár" maxlength="11">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="kep_input">Kép:</label>
-                <input class="form-control" type="url" name="kep" id="kep_input" placeholder="Kép">
+                <input class="form-control" type="url" name="kep" id="kep_input" placeholder="Kép" maxlength="100">
             </div>
             <input class="btn btn-outline-primary" type="submit" value="Elküld">
         </form>

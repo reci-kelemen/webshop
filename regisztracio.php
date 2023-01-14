@@ -25,19 +25,19 @@
             <h2>Jelentkezési űrlap</h2>
             <div class="mb-3">
                 <label class="form-label" for="fnev_input">Felhasználó név:</label>
-                <input class="form-control" type="text" name="fnev" id="fnev_input" placeholder="Felhasználó név">
+                <input class="form-control" type="text" name="fnev" id="fnev_input" placeholder="Felhasználó név" maxlength="30">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="email_input">E-mail:</label>
-                <input class="form-control" type="email" name="email" id="email_input" placeholder="E-mail">
+                <input class="form-control" type="email" name="email" id="email_input" placeholder="E-mail" maxlength="255">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="jelszo_input">Jelszó:</label>
-                <input class="form-control" type="password" name="jelszo" id="jelszo_input" placeholder="Jelszó">
+                <input class="form-control" type="password" name="jelszo" id="jelszo_input" placeholder="Jelszó" maxlength="100">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="tnev_input">Teljes név:</label>
-                <input class="form-control" type="text" name="tnev" id="tnev_input" placeholder="Teljes név">
+                <input class="form-control" type="text" name="tnev" id="tnev_input" placeholder="Teljes név" maxlength="100">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="szuletesi_datum">Születési dátum:</label>
@@ -45,15 +45,15 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="iranyito_szam">Irányító szám:</label>
-                <input class="form-control" type="number" name="iranyito_szam" id="iranyito_szam_input" placeholder="Irányító szám">
+                <input class="form-control" type="number" name="iranyito_szam" id="iranyito_szam_input" placeholder="Irányító szám" maxlength="4">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="varos">Város:</label>
-                <input class="form-control" type="text" name="varos" id="varos_input" placeholder="Város">
+                <input class="form-control" type="text" name="varos" id="varos_input" placeholder="Város" maxlength="50">
             </div>
             <div class="mb-3">
                 <label class="form-label" for="cim">Cím:</label>
-                <input class="form-control" type="text" name="cim" id="cim_input" placeholder="Cím">
+                <input class="form-control" type="text" name="cim" id="cim_input" placeholder="Cím" maxlength="255">
             </div>
             <div class="mb-3">
                 <input class="form-check-input" type="checkbox" name="feltetelek" id="feltetelek_input">
@@ -89,6 +89,14 @@
                     <?php if (!isset($_POST['cim']) || empty($_POST['cim'])) : ?>
                         <li>A cím megadása kötelező</li>
                     <?php endif; ?>
+                    <?php
+                        $uppercase = preg_match('@[A-Z]@', $_POST['jelszo']);
+                        $lowercase = preg_match('@[a-z]@', $_POST['jelszo']);
+                        $number    = preg_match('@[0-9]@', $_POST['jelszo']);
+                    ?>
+                    <?php if (!$uppercase || !$lowercase || !$number || strlen($_POST['jelszo']) < 8) : ?>
+                        <li>A jelszó nem megfelelő.</li>  
+                    <?php endif; ?>
                 </ul>
             <?php else : ?>
                 <?php 
@@ -110,6 +118,9 @@
                     }
                     $sor = "$fnev;$email;$jelszo;$tnev;$szuletesi_datum;$iranyito_szam;$varos;$cim". PHP_EOL;
 
+
+
+                    //save data in sql
                     $conn = new mysqli($servername, $username, $password, $dbname);
 
                     $sql = "INSERT INTO felhasznalo (felhasznalo_nev, email, jelszo, teljes_nev, szuletesi_datum, iranyito_szam, varos, cim) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

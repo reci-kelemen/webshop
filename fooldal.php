@@ -16,23 +16,32 @@
         <button><a href="fooldal.php">Kijelentkezés</a></button>
     </nav>
     <main class="container">
-            <?php
-            $mysqli = new mysqli("localhost", "root", "", "webshop");
-            // $connection = mysqli_connect("localhost", "root", "");
-            // if ($mysqli -> connect_errno) {
-            //     echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-            //     exit();
-            //   }
-             
-            // $mysqli -> query("select * from termek");  
-            // $result = mysqli_query($connection,$mysqli);
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "webshop";
 
-            // while($row = mysqli_fetch_array($result)){   //Creates a loop to loop through results
-            //     echo "<tr><td>" . htmlspecialchars($row['name']) . "</td><td>" . htmlspecialchars($row['age']) . "</td></tr>";  //$row['index'] the index here is a field name
-            //     }
 
-            $mysqli -> close();
-            ?>
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT nev, leiras, ar FROM termek";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+          echo $row["nev"]. " " . $row["leiras"]. " " . $row["ar"]. "<br>";
+        }
+    } else {
+    echo "0 results";
+    }
+    $conn->close();
+    ?> 
     </main>
 </body>
 </html>
