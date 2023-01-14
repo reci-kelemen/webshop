@@ -63,14 +63,25 @@
                 </ul>
             <?php else : ?>
                 <?php 
-                    $file = fopen("termekek.csv", 'a');
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "webshop";
+
                     $nev = $_POST['nev'];
                     $ar = $_POST['ar'];
                     $leiras = $_POST['leiras'];
                     $kep = $_POST['kep'];
-                    $sor = "$nev;$leiras;$ar;$kep". PHP_EOL;
-                    fwrite($file, $sor);
-                    fclose($file);
+
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    $sql = "INSERT INTO termek (nev, leiras, ar, kep) VALUES (?, ?, ?, ?)";
+                    
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("ssis", $nev, $leiras, $ar, $kep);
+                    $stmt->execute();
+
+                    $conn->close();
                 ?>
             <?php endif; ?>
         <?php endif; ?>

@@ -92,7 +92,11 @@
                 </ul>
             <?php else : ?>
                 <?php 
-                    $file = fopen("adatok.csv", 'a');
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "webshop";
+
                     $fnev = $_POST['fnev'];
                     $email = $_POST['email'];
                     $jelszo = "";
@@ -105,8 +109,16 @@
                         $jelszo .= "*";
                     }
                     $sor = "$fnev;$email;$jelszo;$tnev;$szuletesi_datum;$iranyito_szam;$varos;$cim". PHP_EOL;
-                    fwrite($file, $sor);
-                    fclose($file);
+
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    $sql = "INSERT INTO felhasznalo (felhasznalo_nev, email, jelszo, teljes_nev, szuletesi_datum, iranyito_szam, varos, cim) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("sssssiss", $fnev, $email, $jelszo, $tnev, $szuletesi_datum, $iranyito_szam, $varos, $cim);
+                    $stmt->execute();
+
+                    $conn->close();
                 ?>
             <?php endif; ?>
         <?php endif; ?>
