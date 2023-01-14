@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav>
@@ -12,7 +13,7 @@
         <a href="regisztracio.php">Regisztráció</a>
         <a href="bejelentkezes.php">Bejelentkezes</a>
         <a href="termekek.php">Termékek hozzáadása</a>
-        <button>Kijelentkezés</button>
+        <button><a href="fooldal.php">Kijelentkezés</a></button>
     </nav>
     <h1>
     </h1>
